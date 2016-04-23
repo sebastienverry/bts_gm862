@@ -112,6 +112,20 @@ BOOL c__rs232::setTimeout(int TO)
 		return FALSE;
 	return TRUE;
 }
+int initModem(char *pinCode)
+{
+	
+	strcpy_s(dest, 3, "AT\r");
+	c__rs232::TxData(dest, strlen(dest));
+	
+	sprintf_s(dest, 8 + sizeof(pinCode), "AT+CPIN='%d'");
+	c__rs232.RxData((char *)RxBuf, sizeof RxBuf);
+	RxBuf[pincode] = '\0';
+
+	sprintf_s(dest, 12, "AT+CMGF=1\r");  //  Commande AT pour avoir le message en mode texte.
+	c__rs232.TxData(dest, strlen(dest));
+
+}
 
 c__rs232::~c__rs232(void)
 {
