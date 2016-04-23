@@ -19,34 +19,28 @@ int main(void)
 {
 	char RxBuf[256];
 	int NbRecus;
-	char phone_number[] = "phone number";
 	char dest[256];
 	string msg;
 	char caract;
-	//  sprintf(dest,"AT+CMGS=\"%s\"\\r",phone_number);
-	//sprintf(dest,"AT+CPIN=\""",phone_number,strlen("AT+CMGS\r"));
 	LPCWSTR comport = L"\\\\.\\COM1";
 
 	c__rs232 my_rs(comport);
 
-typedef const TCHAR* LPCTSTR;
+	typedef const TCHAR* LPCTSTR;
 	my_rs.confCom(CBR_9600, FALSE, 8, NOPARITY, ONESTOPBIT);
+	my_rs.initModem();
 
 	strcpy_s(dest, 5,"AT\r");
 	my_rs.TxData(dest, strlen(dest));
 	NbRecus = my_rs.RxData(RxBuf, sizeof RxBuf);
 	RxBuf[NbRecus] = '\0';
-	cout << "NbRecus : " << NbRecus << " Data: " << RxBuf << endl;
 
 	sprintf_s(dest, 12,"AT+CMGF=1\r");  //  Commande AT pour avoir le message en mode texte.
 	my_rs.TxData(dest, strlen(dest));
 	NbRecus = my_rs.RxData(RxBuf, sizeof RxBuf);
 	RxBuf[NbRecus] = '\0';
-	cout << "NbRecus : " << NbRecus << " Data: " << RxBuf << endl;
 
-
-
-	sprintf_s(dest, 10+sizeof(phone_number),"AT+CMGS=\"%s\"\r", phone_number); //  Commande AT pour envoyer un message en SMS.
+	sprintf_s(dest, 20+sizeof(phone_number),"AT+CMGS=\"%s\"\r", phone_number); //  Commande AT pour envoyer un message en SMS.
 	my_rs.TxData(dest, strlen(dest));
 	NbRecus = my_rs.RxData((char *)RxBuf, sizeof RxBuf);
 	RxBuf[NbRecus] = '\0';
