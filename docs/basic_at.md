@@ -42,9 +42,23 @@ Lecture d'un SMS depuis la sim:
 ```
 AT+CMGL
 ```
+### Suppression
 
-Suppression d'un SMS :
-
+Supprime les SMS déjà lus
 ```
-AT+CMGD=<id>
+AT+CMGD =1
+```
+
+Supprime les SMS lus, et envoyés
+```
+T+CMGD=2
+```
+
+ Supprime les SMS lus, envoyés et non envoyés
+```
+AT+CMGD=3
+```
+Supprimes tous les SMS (lus, non lus, envoyés et non envoyés)
+```
+AT+CMGD=4 
 ```
