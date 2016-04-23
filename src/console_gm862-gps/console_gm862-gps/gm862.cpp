@@ -52,10 +52,18 @@ BOOL c__rs232::confCom(int baud_rate, BOOL f_parity, int byte_size, int parity, 
 	return TRUE;
 }
 
-BOOL c__rs232::TxData(char *buffer, unsigned long number_bytes_buffer)
+BOOL c__rs232::TxData(char *buffer)
 {
 	unsigned int i;
 	unsigned long size_1 = 1;
+	unsigned long number_bytes_buffer = strlen(buffer) + 1;
+
+	// Debug
+	cout << "---" << endl;
+	cout << "Sending:" << endl;
+	cout << buffer << endl;
+	cout << "---" << endl;
+
 	for (i = 0; i < number_bytes_buffer; i++)
 	{
 		if (WriteFile(hCom, &buffer[i], 1, &size_1, NULL) == 0)
@@ -66,20 +74,6 @@ BOOL c__rs232::TxData(char *buffer, unsigned long number_bytes_buffer)
 	}
 
 	Sleep(500);
-	return TRUE;
-}
-
-BOOL c__rs232::TxData(string &buffer, unsigned long number_bytes_buffer)
-{
-	unsigned int i;
-	unsigned long size_1 = 1;
-	char byte;
-	for (i = 0; i < number_bytes_buffer; ++i)
-	{
-		byte = buffer.at(i);
-		if (WriteFile(hCom, &byte, size_1, &size_1, NULL) == 0)
-			return FALSE;
-	}
 	return TRUE;
 }
 
@@ -112,19 +106,52 @@ BOOL c__rs232::setTimeout(int TO)
 		return FALSE;
 	return TRUE;
 }
-int initModem(char *pinCode)
+BOOL c__rs232::initModem(char *pinCode)
 {
+	char *msg;
+	char dest[50];
+	int lenChar;
+
+	cout << "PinCode: " << pinCode << endl;
+
+
+	sprintf_s(dest, 12, "AT+CMGF=1\r");  //  Commande AT pour avoir le message en mode texte. 
+	this->TxData(dest);
 	
-	strcpy_s(dest, 3, "AT\r");
-	c__rs232::TxData(dest, strlen(dest));
-	
-	sprintf_s(dest, 8 + sizeof(pinCode), "AT+CPIN='%d'");
-	c__rs232.RxData((char *)RxBuf, sizeof RxBuf);
-	RxBuf[pincode] = '\0';
+
+	/* Modem is alive ?*/
+	this->TxData("AT\r");
+
+	this->TxData("Coucou Toi");
+	system("pause");
+	//exit(1);
+	//system("exit");
+
+	/* Enter PinCode */
+	this->TxData("AT+CPIN=1234");
+
+
+	/* GSM is OK ? */
+	this->TxData("AT+CREG?\r");
+
+	/* Send SMS */
+	this->TxData("AT+CMGS=<phone>\r");
+	this->TxData("Coucou toi \x1a");
+	//this->TxData("");
+
+	/*
+	this->RxData(msg, sizeof(msg));
+	cout << "rxdata : " << msg << endl;
+	*/
+	/*
+	sprintf_s(dest, 9 + sizeof(pinCode), "AT+CPIN='%d'");
+	this->RxData(msg, sizeof msg);
 
 	sprintf_s(dest, 12, "AT+CMGF=1\r");  //  Commande AT pour avoir le message en mode texte.
-	c__rs232.TxData(dest, strlen(dest));
+	this->TxData(dest, strlen(dest));
 
+	*/
+	return TRUE;
 }
 
 c__rs232::~c__rs232(void)
