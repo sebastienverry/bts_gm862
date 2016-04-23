@@ -46,13 +46,11 @@ AT+CMGL
 
 Supprime les SMS déjà lus
 ```
-
 AT+CMGD =1
 ```
 
 Supprime les SMS lus, et envoyés
 ```
-
 T+CMGD=2
 ```
 
