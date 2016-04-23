@@ -30,7 +30,7 @@ AT+CREG?
 Envoi d'un SMS:
 ```
 AT+CMGF=1
-AT+CMGS=***REMOVED***
+AT+CMGS=<phone number>
 
 <message>
 
