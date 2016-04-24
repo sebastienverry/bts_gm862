@@ -8,15 +8,13 @@ c__rs232::c__rs232(LPCWSTR port)
 	hCom = CreateFile(
 		port,                           // Choix du port « COMx »
 		GENERIC_READ | GENERIC_WRITE, 	// accès pour lire et écrire sur le port
-		0,                            	// accès exclusif au port de COM
+		0,                            	// accès exclusif au port COM
 		NULL,                         	// sécurité par défaut
 		OPEN_EXISTING,                	// Fichier spécial associé à la ressource COM1 déjà existant.
-		0, 															// mode synchrone (BLOQUANT)
+		0, 								// mode synchrone (BLOQUANT)
 		NULL);
 	cerr << "nativeOpen.afterCreateFile(" << hCom << ")" << endl;
 	cerr << "port: " << port << ", errorCode: " << GetLastError() << endl;
-
-	cout << hCom << endl;
 
 	if (hCom == INVALID_HANDLE_VALUE)
 	{
@@ -72,7 +70,8 @@ BOOL c__rs232::TxData(char *buffer)
 			return FALSE;
 		}
 	}
-
+	cerr << "nativeOpen.afterCreateFile(" << hCom << ")" << endl;
+	cerr << "errorCode: " << GetLastError() << endl;
 	Sleep(500);
 	return TRUE;
 }
@@ -82,17 +81,21 @@ unsigned int c__rs232::RxData(char *buffer, unsigned long number_bytes_buffer)
 	unsigned int i = 0;
 	unsigned long number_bytes_read = 1;
 	setTimeout(0);
+
 	do
 	{
 		if (ReadFile(hCom, (buffer + i), number_bytes_read, &number_bytes_read, NULL) == 0)
 			return 0;
-		if (number_bytes_read == 1)
+		if (number_bytes_read == 1) {
 			++i;
+		}
 		if (i == 1)
 		{
 			setTimeout(20);
 		}
+		cout << "buff: " << buffer << endl;
 	} while ((number_bytes_read == 1) && (i < number_bytes_buffer));
+
 	return i;
 }
 
@@ -108,23 +111,37 @@ BOOL c__rs232::setTimeout(int TO)
 }
 BOOL c__rs232::initModem(char *pinCode)
 {
-	char *msg;
+	char RxBuf[256];
+	char msg[30];
 	char dest[50];
-	int lenChar;
+	unsigned long lenChar;
 
-	cout << "PinCode: " << pinCode << endl;
+	//cout << "PinCode: " << pinCode << endl;
 
+	//this->TxData("ATZ");
+	//Sleep(1000);
 
-	sprintf_s(dest, 12, "AT+CMGF=1\r");  //  Commande AT pour avoir le message en mode texte. 
-	this->TxData(dest);
-	
+	//this->TxData("AT+CMGF=1\r"); //  Commande AT pour avoir le message en mode texte.
+	//system("pause");
+	//lenChar = this->RxData(msg, sizeof(msg));
+	//msg[lenChar] = '\0';
+	//cout << "taille AT+CMGF: " << lenChar << "msg: " << msg << endl;
+	//system("pause");
 
 	/* Modem is alive ?*/
 	this->TxData("AT\r");
-
-	this->TxData("Coucou Toi");
 	system("pause");
-	//exit(1);
+	lenChar = 30;
+	cout << "Resultat readfile: " << ReadFile(hCom, msg, lenChar, &lenChar, NULL) << endl;
+	cout << "msg: " << msg << endl;
+	/*
+	lenChar = this->RxData(msg, sizeof(msg));
+	cout << "taille:" << lenChar << endl;
+	msg[++lenChar] = '\0';
+	cout << "message: " << msg << endl;
+	*/
+	system("pause");
+	exit(1);
 	//system("exit");
 
 	/* Enter PinCode */
@@ -135,7 +152,7 @@ BOOL c__rs232::initModem(char *pinCode)
 	this->TxData("AT+CREG?\r");
 
 	/* Send SMS */
-	this->TxData("AT+CMGS=<phone>\r");
+	this->TxData("AT+CMGS=0622262746\r");
 	this->TxData("Coucou toi \x1a");
 	//this->TxData("");
 
