@@ -62,3 +62,9 @@ Supprimes tous les SMS (lus, non lus, envoyés et non envoyés)
 ```
 AT+CMGD=4 
 ```
+### Reboot 
+
+Reset le modem 
+```
+ATZ
+```
