@@ -1,4 +1,4 @@
-/*#include "gmmysql.h"
+#include "gmmysql.h"
 
 using namespace std;
 
@@ -61,7 +61,7 @@ c__gmmysql::c__gmmysql() {
 								SQLGetData(hstmt, 3, SQL_C_DOUBLE, &dTestFloat, 0, &cbTestFloat);
 
 								/* Print the row of data */
-								/*cout << "Row " << iCount << ":" << endl;
+								cout << "Row " << iCount << ":" << endl;
 								cout << szTestStr << endl;
 								cout << sTestInt << endl;
 								cout << dTestFloat << endl;
@@ -89,5 +89,4 @@ c__gmmysql::c__gmmysql() {
 	}
 
 	system("pause");
-	return 0;
-}*/
+}

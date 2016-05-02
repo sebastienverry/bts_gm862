@@ -29,5 +29,4 @@ private:
 
 };
 
-#endif  C__RS232_HPP_INCLUDED
-
+#endif // C__RS232_HPP_INCLUDED
