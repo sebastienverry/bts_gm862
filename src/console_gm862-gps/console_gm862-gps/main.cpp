@@ -10,7 +10,10 @@ using namespace std;
 
 int main(void)
 {
-	LPCWSTR com = L"\\\\.\\COM1";
+	cout << "salut" << endl;
+	
+	/*
+	LPCWSTR com = L"\\\\.\\COM7";
 	char pin_code[5] = "1234";
 	char *msg;
 	c__rs232 gm862(com);

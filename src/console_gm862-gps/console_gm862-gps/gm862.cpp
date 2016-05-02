@@ -1,4 +1,4 @@
-#include "gm862.h"
+/*#include "gm862.h"
 
 using namespace std;
 
@@ -120,7 +120,7 @@ BOOL c__rs232::initModem(char *pinCode)
 	
 
 	/* Modem is alive ?*/
-	this->TxData("AT\r");
+/*	this->TxData("AT\r");
 
 	this->TxData("Coucou Toi");
 	system("pause");
@@ -128,15 +128,15 @@ BOOL c__rs232::initModem(char *pinCode)
 	//system("exit");
 
 	/* Enter PinCode */
-	this->TxData("AT+CPIN=1234");
+	/////this->TxData("AT+CPIN=1234");
 
-
+/*
 	/* GSM is OK ? */
-	this->TxData("AT+CREG?\r");
+	////this->TxData("AT+CREG?\r");
 
 	/* Send SMS */
-	this->TxData("AT+CMGS=<phone>\r");
-	this->TxData("Coucou toi \x1a");
+	///this->TxData("AT+CMGS=0635521953\r");
+	//////this->TxData("Coucou toi \x1a");
 	//this->TxData("");
 
 	/*
@@ -151,10 +151,11 @@ BOOL c__rs232::initModem(char *pinCode)
 	this->TxData(dest, strlen(dest));
 
 	*/
-	return TRUE;
+	/*return TRUE;
 }
 
 c__rs232::~c__rs232(void)
 {
 	CloseHandle(hCom);
 }
+*/
