@@ -89,5 +89,4 @@ c__gmmysql::c__gmmysql() {
 	}
 
 	system("pause");
-	return 0;
 }
