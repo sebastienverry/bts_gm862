@@ -1,6 +1,6 @@
 /* gm862.hpp
 */
-/*
+
 #ifndef C__RS232_HPP_INCLUDED
 #define C__RS232_HPP_INCLUDED
 
@@ -29,6 +29,5 @@ private:
 
 };
 
-#endif // C__RS232_HPP_INCLUDED
+#endif  C__RS232_HPP_INCLUDED
 
-*/

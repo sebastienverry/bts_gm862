@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 c__rs232::c__rs232(LPCWSTR port)
 {
 	hCom = CreateFile(
@@ -74,6 +73,11 @@ BOOL c__rs232::TxData(char *buffer)
 	cerr << "errorCode: " << GetLastError() << endl;
 	Sleep(500);
 	return TRUE;
+}
+
+BOOL c__rs232::TxData(std::string & buffer, unsigned long number_bytes_buffer)
+{
+	return 0;
 }
 
 unsigned int c__rs232::RxData(char *buffer, unsigned long number_bytes_buffer)
@@ -152,7 +156,7 @@ BOOL c__rs232::initModem(char *pinCode)
 	this->TxData("AT+CREG?\r");
 
 	/* Send SMS */
-	this->TxData("AT+CMGS=0622262746\r");
+	this->TxData("AT+CMGS=0635521953\r");
 	this->TxData("Coucou toi \x1a");
 	//this->TxData("");
 
