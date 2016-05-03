@@ -12,11 +12,11 @@ using namespace std;
 
 int main(void)
 {
-	LPCWSTR com = L"\\\\.\\COM7";
+	LPCWSTR com = L"\\\\.\\COM8";
 	char pin_code[5] = "1234";
-	char *msg;
+	//char *msg;
 	c__rs232 gm862(com);
-	//c__gmmysql gmmysql();
+	c__gmmysql gmmysql();
 
 	gm862.confCom(CBR_9600, FALSE, 8, NOPARITY, ONESTOPBIT); // configure serial port
 	gm862.initModem(pin_code); // init modem

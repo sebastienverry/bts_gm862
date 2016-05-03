@@ -2,6 +2,8 @@
 
 using namespace std;
 
+
+
 c__rs232::c__rs232(LPCWSTR port)
 {
 	hCom = CreateFile(
@@ -12,8 +14,8 @@ c__rs232::c__rs232(LPCWSTR port)
 		OPEN_EXISTING,                	// Fichier spécial associé à la ressource COM1 déjà existant.
 		0, 								// mode synchrone (BLOQUANT)
 		NULL);
-	cerr << "nativeOpen.afterCreateFile(" << hCom << ")" << endl;
-	cerr << "port: " << port << ", errorCode: " << GetLastError() << endl;
+	cout << "nativeOpen.afterCreateFile(" << hCom << ")" << endl;
+	cout << "port: " << port << ", errorCode: " << GetLastError() << endl;
 
 	if (hCom == INVALID_HANDLE_VALUE)
 	{
@@ -25,31 +27,30 @@ c__rs232::c__rs232(LPCWSTR port)
 
 
 
-BOOL c__rs232::confCom(int baud_rate, BOOL f_parity, int byte_size, int parity, int stop_bit)
+void c__rs232::confCom(int baud_rate, BOOL f_parity, int byte_size, int parity, int stop_bit)
 {
 	DCB sConfig;
 	if (GetCommState(hCom, &sConfig) == 0)
 	{
-		cerr << "ERROR Getting Configuration: " << GetLastError() << endl;
-		return FALSE;
+		cout << "Erreur dans l'obtention de la configuration: " << GetLastError() << endl;
+		
 	}
-
-	sConfig.BaudRate = baud_rate;
-	sConfig.fParity = f_parity;
-	sConfig.ByteSize = byte_size;
-	sConfig.Parity = parity;
-	sConfig.StopBits = stop_bit;
-
-	if (SetCommState(hCom, &sConfig) == 0)
+	else
 	{
-		cerr << "ERROR Setting Configuration: " << GetLastError() << endl;
-		return FALSE;
+		sConfig.BaudRate = baud_rate;
+		sConfig.fParity = f_parity;
+		sConfig.ByteSize = byte_size;
+		sConfig.Parity = parity;
+		sConfig.StopBits = stop_bit;
+
+		if (SetCommState(hCom, &sConfig) == 0)
+		{
+			cout << "Erreur de réglage dans la configuration: " << GetLastError() << endl;
+		}
 	}
 	Sleep(500);
-	return TRUE;
 }
-
-BOOL c__rs232::TxData(char *buffer)
+void c__rs232::TxData(char *buffer)
 {
 	unsigned int i;
 	unsigned long size_1 = 1;
@@ -57,7 +58,7 @@ BOOL c__rs232::TxData(char *buffer)
 
 	// Debug
 	cout << "---" << endl;
-	cout << "Sending:" << endl;
+	cout << "Envoi:" << endl;
 	cout << buffer << endl;
 	cout << "---" << endl;
 
@@ -66,13 +67,11 @@ BOOL c__rs232::TxData(char *buffer)
 		if (WriteFile(hCom, &buffer[i], 1, &size_1, NULL) == 0)
 		{
 			cout << "pb" << endl;
-			return FALSE;
 		}
 	}
-	cerr << "nativeOpen.afterCreateFile(" << hCom << ")" << endl;
-	cerr << "errorCode: " << GetLastError() << endl;
+	cout << "nativeOpen.afterCreateFile(" << hCom << ")" << endl;
+	cout << "Erreur code: " << GetLastError() << endl;
 	Sleep(500);
-	return TRUE;
 }
 
 BOOL c__rs232::TxData(std::string & buffer, unsigned long number_bytes_buffer)
@@ -145,7 +144,7 @@ BOOL c__rs232::initModem(char *pinCode)
 	cout << "message: " << msg << endl;
 	*/
 	system("pause");
-	exit(1);
+	//exit(1);
 	//system("exit");
 
 	/* Enter PinCode */
