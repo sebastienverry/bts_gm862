@@ -29,9 +29,12 @@ AT+CREG?
 
 Envoi d'un SMS:
 
- Sélection du format des messages 1 : mode Texte.
+ Sélection du format des messages, 1 signifie qu'il est en mode Texte.
 ```
 AT+CMGF=1
+```
+Commande pour rentrer le numéros de téléphone du réceptionneur et du message a envoyer
+```
 AT+CMGS=<phone number>
 
 <message>
