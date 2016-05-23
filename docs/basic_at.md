@@ -28,6 +28,8 @@ AT+CREG?
 ```
 
 Envoi d'un SMS:
+
+ Sélection du format des messages 1 : mode Texte.
 ```
 AT+CMGF=1
 AT+CMGS=<phone number>
