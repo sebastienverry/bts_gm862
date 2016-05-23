@@ -10,13 +10,13 @@ ixonc
 
 ## Commande AT:
 
-Vérification fonctionnement ligne série:
+Vérification que le modem est en marche:
 
 ```
 AT
 ```
 
-Identification sur la carte sim via le code pin:
+Configuration du code Pin de la carte:
 ```
 AT+CPIN=0000
 ```
