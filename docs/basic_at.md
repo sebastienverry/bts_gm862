@@ -68,3 +68,7 @@ Reset le modem
 ```
 ATZ
 ```
+Lire les messages contenu sur la carte Sim
+```
+AT+CMGL
+```
